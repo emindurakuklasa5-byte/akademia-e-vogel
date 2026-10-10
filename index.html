@@ -17,3 +17,35 @@ let stars=0,total=0,current=1,qs=[],i=0,score=0,earned=0,locked=false;const $=id
 // Event-listener fallback for environments that restrict inline click handlers.
 document.querySelectorAll('.grade').forEach((button, idx) => button.addEventListener('click', () => start(idx + 1)));
 </script></body></html>
+<script>
+(function () {
+  const oldAdvance = window.advance;
+  let saved = false;
+
+  window.advance = function () {
+    if (i === qs.length - 1 && !saved) {
+      const name = prompt("Shkruaje emrin e nxënësit:");
+
+      if (name && name.trim()) {
+        saved = true;
+
+        fetch("https://script.google.com/macros/s/AKfycbxr5LPb4Fm802g-01KGQFH5muOOQK_8BUHJePHxcrYj4A_93Gcg5QwL-MU_c7RcLP8uFA/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=UTF-8"
+          },
+          body: JSON.stringify({
+            name: name.trim(),
+            grade: ["", "I", "II", "III", "IV", "V"][current],
+            score: score,
+            percentage: Math.round(score / qs.length * 100)
+          })
+        });
+      }
+    }
+
+    oldAdvance();
+  };
+})();
+</script>
