@@ -5,11 +5,54 @@
 </style>
 <link rel="icon" type="image/png" href="7D0044D3-246C-406D-BBA7-F158EB871BCC.png">
 <link rel="apple-touch-icon" href="7D0044D3-246C-406D-BBA7-F158EB871BCC.png">
-</head><body><header><div class="logo">🦉</div><h1>Akademia e vogël</h1><p>Mëso, luaj dhe zbulo! ⭐</p><p style="margin-top:9px;font-weight:800;color:#286ed0">Mësuesi: Lip Salihu</p></header><main><div class="stats"><div class="pill">⭐ Yjet: <span id="stars">0</span></div><div class="pill">🏅 Niveli: <span id="level">1</span></div><div class="pill">✅ Përgjigje të sakta: <span id="total">0</span></div></div>
+</head><body><div id="gate" style="position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#eaf5ff,#fff9e7,#f1eaff);display:flex;align-items:center;justify-content:center;padding:24px">
+
+  <div style="background:white;padding:24px;border-radius:22px;max-width:380px;width:100%;text-align:center;box-shadow:0 5px 20px #b9cce0">
+
+    <div style="font-size:48px">🦉</div>
+
+    <h2>Akademia e vogël</h2>
+
+    <p>Shkruaje kodin për të hyrë.</p>
+
+    <input id="accessCode" type="password" autocomplete="off" placeholder="Kodi hyrës" style="font:inherit;padding:12px;width:100%;border:2px solid #d7e8fa;border-radius:12px">
+
+    <button onclick="checkAccess()" style="font:inherit;font-weight:800;margin-top:12px;padding:12px 18px;background:#286ed0;color:white;border:0;border-radius:12px;width:100%">Hyr në Akademi</button>
+
+    <p id="gateError" style="color:#922543"></p>
+
+  </div>
+</div>
+  <header><div class="logo">🦉</div><h1>Akademia e vogël</h1><p>Mëso, luaj dhe zbulo! ⭐</p><p style="margin-top:9px;font-weight:800;color:#286ed0">Mësuesi: Lip Salihu</p></header><main><div class="stats"><div class="pill">⭐ Yjet: <span id="stars">0</span></div><div class="pill">🏅 Niveli: <span id="level">1</span></div><div class="pill">✅ Përgjigje të sakta: <span id="total">0</span></div></div>
 <section id="home"><div class="welcome"><h2>Mirë se erdhe, kampion/e! 🌈</h2><p>Zgjidhe klasën, përgjigju në pyetje dhe fito yje. Çdo sfidë është një mundësi për të mësuar diçka të re!</p></div><h2>🎒 Zgjidhe klasën</h2><div class="grades"><button class="grade g1" onclick="start(1)"><span>🐞</span>Klasa I</button><button class="grade g2" onclick="start(2)"><span>🦊</span>Klasa II</button><button class="grade g3" onclick="start(3)"><span>🐬</span>Klasa III</button><button class="grade g4" onclick="start(4)"><span>🦋</span>Klasa IV</button><button class="grade g5" onclick="start(5)"><span>🚀</span>Klasa V</button></div><h2 style="margin-top:25px">✨ Çfarë do të ushtrojmë?</h2><div class="extra"><div class="tile"><b>🔢 Matematikë</b><p>Mbledhje, zbritje dhe numra.</p></div><div class="tile"><b>🧠 Logjikë</b><p>Vargje, modele dhe probleme.</p></div><div class="tile"><b>⭐ Yje dhe nivele</b><p>Fito yje për përgjigjet e sakta.</p></div></div></section>
 <section id="quiz" class="panel hidden"><div class="row"><button class="back" onclick="home()">← Kthehu</button><b id="gradeLabel">Klasa I</b><b id="counter">Pyetja 1/10</b></div><div class="progress"><div class="bar" id="bar"></div></div><div class="question" id="question"></div><div class="answers" id="answers"></div><div id="feedback" aria-live="polite"></div><button class="next hidden" id="next" onclick="advance()">Pyetja tjetër →</button></section>
 <section id="result" class="panel hidden" style="text-align:center"><div style="font-size:58px">🏆</div><h2>Urime për përfundimin!</h2><p id="summary"></p><div class="stats" style="justify-content:center"><div class="pill">⭐ Yje të fituar: <span id="earned"></span></div><div class="pill">🎯 Saktë: <span id="score"></span>/10</div></div><button class="next" onclick="start(current)">Provo përsëri 🔄</button><button class="back" onclick="home()">Zgjedh klasë tjetër</button></section></main><footer>Akademia e vogël · Mësuesi: Lip Salihu · Mëso me gëzim, përparoni çdo ditë! 🌟</footer>
 <script>
+  const ACCESS_CODE = "588459";
+
+function checkAccess() {
+
+  const entered = document.getElementById("accessCode").value;
+
+  if (entered === ACCESS_CODE) {
+
+    document.getElementById("gate").style.display = "none";
+
+  } else {
+
+    document.getElementById("gateError").textContent =
+
+      "Kodi nuk është i saktë. Provo përsëri.";
+
+  }
+
+}
+
+document.getElementById("accessCode").addEventListener("keydown", function(e) {
+
+  if (e.key === "Enter") checkAccess();
+
+});
 const data={
 1:[['Sa bëjnë 2 + 3?',['4','5','6'],'5','2 + 3 = 5.'],['Sa bëjnë 7 − 2?',['4','5','6'],'5','7 − 2 = 5.'],['Cili numër vjen pas 9?',['8','10','11'],'10','Pas 9 vjen 10.'],['Cili numër është më i madh?',['3','8','5'],'8','8 është më i madh.'],['Sa gishta kemi në njërën dorë?',['4','5','6'],'5','Kemi 5 gishta.'],['Plotëso: 2, 4, 6, __',['7','8','9'],'8','Shtojmë nga 2.'],['Sa bëjnë 5 + 5?',['9','10','11'],'10','5 + 5 = 10.'],['Cila formë ka 3 brinjë?',['Rrethi','Katrori','Trekëndëshi'],'Trekëndëshi','Trekëndëshi ka 3 brinjë.'],['Sa bëjnë 10 − 4?',['5','6','7'],'6','10 − 4 = 6.'],['Cili numër mungon: 1, 2, __, 4?',['3','5','6'],'3','Mungon numri 3.']],
 2:[['Sa bëjnë 12 + 5?',['16','17','18'],'17','12 + 5 = 17.'],['Sa bëjnë 20 − 8?',['11','12','13'],'12','20 − 8 = 12.'],['Cili numër vjen para 30?',['28','29','31'],'29','Para 30 vjen 29.'],['Plotëso: 5, 10, 15, __',['18','20','25'],'20','Shtojmë nga 5.'],['Sa këmbë kanë 3 mace?',['9','12','6'],'12','3 × 4 = 12.'],['Cili numër është çift?',['7','13','18'],'18','18 pjesëtohet me 2.'],['Sa bëjnë 14 + 6?',['19','20','21'],'20','14 + 6 = 20.'],['Ke 10 lapsa dhe jep 3. Sa mbesin?',['6','7','8'],'7','10 − 3 = 7.'],['Plotëso: 11, 13, 15, __',['16','17','18'],'17','Shtojmë nga 2.'],['Sa anë ka drejtkëndëshi?',['3','4','5'],'4','Ka 4 anë.'],['Sa bëjnë 3 + 4?',['6','7','8'],'7','3 + 4 = 7.'],['Cili numër nuk është në bashkësinë A = {1, 2, 3, 4}?',['1','4','5'],'5','Numri 5 nuk është në bashkësinë A.'],['Sa bëjnë 3 × 3?',['6','9','12'],'9','3 × 3 = 9.']],
